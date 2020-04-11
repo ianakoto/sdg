@@ -9,7 +9,7 @@ import { FormBuilder, Validators, FormGroup  } from '@angular/forms';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'front-end';
+  title = 'COVID-19 ESTIMATOR';
   isSubmitted = false;
   itemListSubs: Subscription;
   itemList;
@@ -61,6 +61,7 @@ export class AppComponent {
 
     console.log(this.myForm.value);
    // post to api
+    this.backendApi.postSomethins();
 
   }
 

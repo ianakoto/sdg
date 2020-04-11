@@ -1,3 +1,7 @@
+import json
+import math
+
+
 def estimator(data):
       
       """ THis function computes the estimation of covid 19 infected patients
@@ -19,6 +23,7 @@ def estimator(data):
        returns   a dictionary of input data, impact as dict, and severImpact as dict    
       
        """
+      print(data) 
       # normalize timeToElapse to days
       ptype = data.periodType;
       new_timeToElapse = 0;
@@ -27,45 +32,52 @@ def estimator(data):
       elif ptype == "weeks":
             new_timeToElapse = 7 * data.timeToElapse;
       else:
-            new_timeToElapse = data.timeToElapse;
+            new_timeToElapse = int(data.timeToElapse);
       
       factor = new_timeToElapse // 3;
             
 
-      impact, severeImpact = dict({})
+      impact = {}
+      severeImpact = {}
 
-      impact['currentlyInfected'] = data.reportedCases * 10;
-      severeImpact['currentlyInfected'] = data.reportedCases * 50;
+      impact['currentlyInfected'] = math.floor( int(data.reportedCases) * 10);
+      severeImpact['currentlyInfected'] = math.floor(int(data.reportedCases) * 50);
+     
 
-      est_infectedPeople_impact = impact.currentlyInfected * (2 * factor); 
-      est_infectedPeople_severeImpact = severeImpact.currentlyInfected * (2 * factor);
+      est_infectedPeople_impact =math.floor( impact['currentlyInfected'] * (2 * factor)); 
+      est_infectedPeople_severeImpact = math.floor(severeImpact['currentlyInfected'] * (2 * factor));
       
       impact['infectionsByRequestedTime'] = est_infectedPeople_impact;
-      impact['severeCasesByRequestedTime '] = (impact.infectionsByRequestedTime * 15) / 100;
-      
       severeImpact['infectionsByRequestedTime'] = est_infectedPeople_severeImpact;
-      severeImpact['severeCasesByRequestedTime'] =(severeImpact.infectionsByRequestedTime * 15) / 100;
+      
+      impact['severeCasesByRequestedTime'] =math.floor( (int(impact['infectionsByRequestedTime']) * 15) / 100);      
+      severeImpact['severeCasesByRequestedTime'] =math.floor( (int(severeImpact['infectionsByRequestedTime']) * 15) / 100);
 
-      totalHospitalBeds = (data.totalHospitalBeds * 95) / 100;
+      totalHospitalBeds = (int(data.totalHospitalBeds) * 95) / 100;
       occupied_beds = (totalHospitalBeds * 65) / 100;
       unoccupied_beds_covid_patients = totalHospitalBeds - occupied_beds;
 
-      impact['hospitalBedsByRequestedTime'] = unoccupied_beds_covid_patients - impact.severeCasesByRequestedTime;
-      severeImpact['hospitalBedsByRequestedTime'] = unoccupied_beds_covid_patients - severeImpact.severeCasesByRequestedTime;
+      impact['hospitalBedsByRequestedTime'] =math.floor( unoccupied_beds_covid_patients - impact['severeCasesByRequestedTime']);
+      severeImpact['hospitalBedsByRequestedTime'] =math.floor( unoccupied_beds_covid_patients - severeImpact['severeCasesByRequestedTime']);
 
-      impact['casesForICUByRequestedTime'] = (impact.infectionsByRequestedTime * 5) / 100;
-      severeImpact['casesForICUByRequestedTime '] = (severeImpact.infectionsByRequestedTime * 5) / 100;
-
-
-      impact['casesForVentilatorsByRequestedTime'] = (impact.infectionsByRequestedTime * 2) / 100;
-      severeImpact['casesForVentilatorsByRequestedTime'] = (severeImpact.infectionsByRequestedTime * 2) / 100;
-
-      daily_income = data.region.avgDailyIncomeInUSD;
-      avd_income_population = data.region. avgDailyIncomePopulation;
+      impact['casesForICUByRequestedTime'] = math.floor((impact['infectionsByRequestedTime'] * 5) / 100);
+      severeImpact['casesForICUByRequestedTime '] =math.floor( (severeImpact['infectionsByRequestedTime'] * 5) / 100);
 
 
-      impact['dollarsInFlight'] = impact.infectionsByRequestedTime * daily_income * avd_income_population * new_timeToElapse;  
-      severeImpact['severeCasesByRequestedTime'] = severeImpact.infectionsByRequestedTime * daily_income * avd_income_population * new_timeToElapse;
+      impact['casesForVentilatorsByRequestedTime'] =math.floor( (impact['infectionsByRequestedTime'] * 2) / 100);
+      severeImpact['casesForVentilatorsByRequestedTime'] =math.floor( (severeImpact['infectionsByRequestedTime'] * 2) / 100);
+
+      
+      daily_income = data.region['avgDailyIncomeInUSD'];
+      avd_income_population = data.region['avgDailyIncomePopulation'];
+      
+      print(daily_income)
+      print(avd_income_population)
+      print(new_timeToElapse)
+      print( impact['infectionsByRequestedTime'])
+
+      impact['dollarsInFlight'] =math.floor( impact['infectionsByRequestedTime'] * daily_income * avd_income_population * new_timeToElapse);  
+      severeImpact['severeCasesByRequestedTime'] =math.floor( severeImpact['infectionsByRequestedTime'] * daily_income * avd_income_population * new_timeToElapse);
 
       output = {'impact':impact,'severeImpact':severeImpact};
 

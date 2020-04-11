@@ -22,4 +22,8 @@ export class BackendService {
         .get(`${API_URL}/employees`);
     }
 
+    postSomethins() {
+      return null;
+    }
+
 }
