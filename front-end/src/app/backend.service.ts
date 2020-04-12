@@ -17,9 +17,14 @@ export class BackendService {
 
 
     // GET list of public, future events
-    getSomething() {
+    getLogs() {
       return this.http
-        .get(`${API_URL}/employees`);
+        .get(`${API_URL}/api/v1/on-covid-19/logs`);
+    }
+
+    postEstimator(data) {
+      return this.http
+      .post(`${API_URL}/api/v1/on-covid-19/json`, data);
     }
 
     postSomethins() {

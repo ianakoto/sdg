@@ -28,9 +28,9 @@ def estimator(data):
       ptype = data.periodType;
       new_timeToElapse = 0;
       if ptype == "months":
-            new_timeToElapse = 30 * data.timeToElapse;
+            new_timeToElapse = 30 * int(data.timeToElapse);
       elif ptype == "weeks":
-            new_timeToElapse = 7 * data.timeToElapse;
+            new_timeToElapse = 7 * int(data.timeToElapse);
       else:
             new_timeToElapse = int(data.timeToElapse);
       
@@ -71,10 +71,7 @@ def estimator(data):
       daily_income = data.region['avgDailyIncomeInUSD'];
       avd_income_population = data.region['avgDailyIncomePopulation'];
       
-      print(daily_income)
-      print(avd_income_population)
-      print(new_timeToElapse)
-      print( impact['infectionsByRequestedTime'])
+
 
       impact['dollarsInFlight'] =math.floor( impact['infectionsByRequestedTime'] * daily_income * avd_income_population * new_timeToElapse);  
       severeImpact['severeCasesByRequestedTime'] =math.floor( severeImpact['infectionsByRequestedTime'] * daily_income * avd_income_population * new_timeToElapse);

@@ -1,5 +1,5 @@
 
-<div style="margin-top: 50px;">
+<div style="margin-top: 8px;">
   <mat-card>
 
     <mat-card-header class="card-header info-color white-text text-center py-4" >
@@ -19,7 +19,7 @@
       <!-- Population -->
       <div >
         <p [ngClass]="{ 'has-error': isSubmitted && formControls.population.errors }">
-        <input type="text" id="population" formControlName="population" placeholder="Population" class="form-control" matInput>
+        <input type="number" id="population" formControlName="population" placeholder="Population" class="form-control" matInput>
       </p>
       <div *ngIf="isSubmitted && formControls.population.errors" class="isa_error">
         <div *ngIf="formControls.population.errors.required">Population is required</div>
@@ -31,7 +31,7 @@
         <!-- timeToElapse -->
         <div >
           <p [ngClass]="{ 'has-error': isSubmitted && formControls.timeToElapse.errors }">
-          <input type="text" id="timeToElapse" formControlName="timeToElapse" placeholder="timeToElapse" class="form-control" matInput>
+          <input type="number" id="timeToElapse" formControlName="timeToElapse" placeholder="timeToElapse" class="form-control" matInput>
         </p>
         <div *ngIf="isSubmitted && formControls.timeToElapse.errors" class="isa_error">
           <div *ngIf="formControls.timeToElapse.errors.required">timeToElapse is required</div>
@@ -44,7 +44,7 @@
           <!-- reportedCases -->
       <div >
         <p [ngClass]="{ 'has-error': isSubmitted && formControls.reportedCases.errors }">
-        <input type="text" id="reportedCases" formControlName="reportedCases" placeholder="reportedCases" class="form-control" matInput>
+        <input type="number" id="reportedCases" formControlName="reportedCases" placeholder="reportedCases" class="form-control" matInput>
       </p>
       <div *ngIf="isSubmitted && formControls.reportedCases.errors" class="isa_error">
         <div *ngIf="formControls.reportedCases.errors.required">reportedCases is required</div>
@@ -57,11 +57,11 @@
 
         <!-- totalhospitalBeds -->
         <div >
-          <p [ngClass]="{ 'has-error': isSubmitted && formControls.totalhospitalBeds.errors }">
-          <input type="text" id="totalhospitalBeds" formControlName="totalhospitalBeds" placeholder="totalhospitalBeds" class="form-control" matInput>
+          <p [ngClass]="{ 'has-error': isSubmitted && formControls.totalHospitalBeds.errors }">
+          <input type="number" id="totalHospitalBeds" formControlName="totalHospitalBeds" placeholder="totalHospitalBeds" class="form-control" matInput>
         </p>
-        <div *ngIf="isSubmitted && formControls.totalhospitalBeds.errors" class="isa_error">
-          <div *ngIf="formControls.totalhospitalBeds.errors.required">totalhospitalBeds is required</div>
+        <div *ngIf="isSubmitted && formControls.totalHospitalBeds.errors" class="isa_error">
+          <div *ngIf="formControls.totalHospitalBeds.errors.required">totalhospitalBeds is required</div>
         </div>
         </div>
 
@@ -76,7 +76,7 @@
           <mat-select  [multiple]="false" formControlName="periodType" placeholder="Select Period Type" label="class">
             <mat-option value="days" >Days</mat-option>
             <mat-option value="weeks">Weeks</mat-option>
-            <mat-option value="months">Monts</mat-option>
+            <mat-option value="months">Months</mat-option>
 
           </mat-select>
         </p>
@@ -100,6 +100,12 @@
 
 
   </mat-card>
+
+
+  <div *ngIf="estimateresult" style="font:bolder; font-size:larger;">
+    <p style="margin: 0; font:caption; font-size:larger">Results</p>
+     <td>{{estimateresult}}</td>
+  </div>
 
 
 </div>

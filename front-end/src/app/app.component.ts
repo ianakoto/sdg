@@ -2,6 +2,16 @@ import { Component } from '@angular/core';
 import { BackendService } from './backend.service';
 import {Subscription} from 'rxjs';
 import { FormBuilder, Validators, FormGroup  } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+
+
+export interface Region {
+  name: string;
+  avgAge: number;
+  avgDailyIncomeInUSD: number;
+  avgDailyIncomePopulation: number;
+
+}
 
 @Component({
   selector: 'app-root',
@@ -14,15 +24,17 @@ export class AppComponent {
   itemListSubs: Subscription;
   itemList;
   myForm: FormGroup;
+  setRegion: Region;
+  estimateresult;
 
-  constructor(private backendApi: BackendService, private formBuilder: FormBuilder) {
+  constructor(private backendApi: BackendService, private formBuilder: FormBuilder, private http: HttpClient) {
 
 
     this.myForm = formBuilder.group({
       population: ['', Validators.required],
       timeToElapse: ['', Validators.required],
       reportedCases: ['', Validators.required],
-      totalhospitalBeds: ['', Validators.required],
+      totalHospitalBeds: ['', Validators.required],
       periodType: ['', Validators.required]
     });
 
@@ -33,7 +45,7 @@ export class AppComponent {
   ngOnInit() {
 
     this.itemListSubs = this.backendApi
-      .getSomething()
+      .getLogs()
       .subscribe(res => {
           this.itemList = res;
           console.log(res);
@@ -59,9 +71,33 @@ export class AppComponent {
       return;
     }
 
-    console.log(this.myForm.value);
+
+
+    // this.setRegion.name = 'Africa';
+    // this.setRegion.avgAge = 19.7;
+    // this.setRegion.avgDailyIncomeInUSD = 5;
+    // this.setRegion.avgDailyIncomePopulation = 0.71;
+
+    // tslint:disable-next-line:variable-name
+    const region_data = {name: 'Africa', avgAge: 19.7, avgDailyIncomeInUSD: 5, avgDailyIncomePopulation: 0.71 };
+
+
+    const formvalue =  this.myForm.value;
+
+
+    const region = region_data;
+
+
+    const putdata = {region, ...formvalue};
+    console.log(putdata);
+
    // post to api
-    this.backendApi.postSomethins();
+    this.backendApi
+    .postEstimator(putdata)
+    .subscribe(res => {
+      this.estimateresult = JSON.stringify(res);
+      console.log(res);
+    });
 
   }
 
