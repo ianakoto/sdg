@@ -48,7 +48,7 @@ export class AppComponent {
       .getLogs()
       .subscribe(res => {
           this.itemList = res;
-          console.log(res);
+
         },
         console.error
       );
@@ -89,14 +89,14 @@ export class AppComponent {
 
 
     const putdata = {region, ...formvalue};
-    console.log(putdata);
+
 
    // post to api
     this.backendApi
     .postEstimator(putdata)
     .subscribe(res => {
       this.estimateresult = JSON.stringify(res);
-      console.log(res);
+
     });
 
   }
