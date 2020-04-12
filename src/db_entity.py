@@ -2,14 +2,15 @@ from datetime import datetime
 from sqlalchemy import create_engine, Column, String, Integer, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+import psycopg2
 
 
 
-db_url = 'localhost:5432'
-db_name = 'logs'
+db_url = 'localhost:5433'
+db_name = 'logging-response'
 db_user = 'postgres'
-db_password = 'log24'
-engine = create_engine(f'postgresql://{db_user}:{db_password}@{db_url}/{db_name}')
+db_password = 'password'
+engine = create_engine(f'postgres+psycopg2://{db_user}:{db_password}@{db_url}/{db_name}')
 Session = sessionmaker(bind=engine)
 
 Base = declarative_base()

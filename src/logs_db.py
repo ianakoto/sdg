@@ -4,6 +4,10 @@ from src.db_entity import Entity, Base
 
 
 
+
+
+
+
 class Logs(Entity, Base):
     __tablename__ = 'logs'
 
