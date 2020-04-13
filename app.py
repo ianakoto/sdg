@@ -130,6 +130,14 @@ def after(response):
 
 
 
+
+
+@app.route('/')
+def index():
+    return "<h1>Welcome to Ian's server !!</h1>"
+
+
+
 api.add_resource(Post_JsonData,'/api/v1/on-covid-19/json')
 api.add_resource(Post_XmlData,'/api/v1/on-covid-19/xml')
 api.add_resource(Get_Logging,'/api/v1/on-covid-19/logs')
@@ -140,4 +148,4 @@ api.add_resource(Get_Logging,'/api/v1/on-covid-19/logs')
 
 
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(threaded=True,port=8000)
