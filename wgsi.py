@@ -32,7 +32,7 @@ session = Session()
 
 #     # reload exams
 #     mlogs = session.query(Logs).all()
-
+ 
 
 
 
