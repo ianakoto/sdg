@@ -23,7 +23,7 @@ def estimator(data):
        returns   a dictionary of input data, impact as dict, and severImpact as dict    
       
        """
-      print(data) 
+      
       # normalize timeToElapse to days
       ptype = data.periodType;
       new_timeToElapse = 0;

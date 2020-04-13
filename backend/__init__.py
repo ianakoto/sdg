@@ -19,6 +19,9 @@ from flask_sqlalchemy import SQLAlchemy
  
 
 app = Flask(__name__)
+api = Api(app)
+
+CORS(app)
 
 app.config['DEBUG'] = True
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///example.sqlite"
@@ -35,13 +38,10 @@ class Logs(db.Model):
 
 
 
+db.create_all()
 
 
 
-
-api = Api(app)
-
-CORS(app)
 
 
 parser = reqparse.RequestParser()
