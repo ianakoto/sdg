@@ -12,35 +12,36 @@ import json
 from dicttoxml import dicttoxml
 import jxmlease
 
-
-from src.db_entity import Session, engine, Base
-from src.logs_db import Logs
-
-
-Base.metadata.create_all(engine)
-session = Session()
+from flask_sqlalchemy import SQLAlchemy
 
 
 
-
-# if len(mlogs) == 0:
-#     # create and persist dummy logs
-#     _example = Logs("none","none", "none", "none", "script")
-#     session.add(_example)
-#     session.commit()
-#     session.close()
-
-#     # reload exams
-#     mlogs = session.query(Logs).all()
  
 
-
-
 app = Flask(__name__)
-
 api = Api(app)
 
 CORS(app)
+
+app.config['DEBUG'] = True
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///example.sqlite"
+db = SQLAlchemy(app)
+
+
+
+class Logs(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    httpmethod = db.Column(db.String, unique=True, nullable=False)
+    requestpath = db.Column(db.String, unique=True, nullable=False)
+    status = db.Column(db.String, unique=True, nullable=False)
+    timetook = db.Column(db.String, unique=True, nullable=False)
+
+
+
+db.create_all()
+
+
+
 
 
 parser = reqparse.RequestParser()
@@ -92,7 +93,7 @@ class Get_Logging(Resource):
     
 
     def get(self):
-        mlogs = session.query(Logs).all()
+        mlogs = Logs.query.all()
         put_data = []
         for log in mlogs:
             put_data.append(f'{log.httpmethod}   {log.requestpath}     {log.status} {log.timetook} ms')
@@ -121,10 +122,10 @@ def after(response):
     status=response.status_code 
     path = log_info['path']
     method = log_info['method']
-    mylogging = Logs(method,path,status,str(diff), "script")
-    session.add(mylogging)
-    session.commit()
-    session.close()
+
+    db.session.add(Logs(httpmethod=method, requestpath=path,status=status,timetook=str(diff)))
+    db.session.commit()
+    db.session.close()
     log_info.clear();
     return response
 
