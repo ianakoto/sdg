@@ -6,7 +6,7 @@ import psycopg2
 
 
 
-db_url = 'localhost:5433'
+db_url = 'DATABASE_URL'
 db_name = 'logging-response'
 db_user = 'postgres'
 db_password = 'password'
