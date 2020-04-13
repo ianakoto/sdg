@@ -1,1 +1,2 @@
 web: gunicorn wgsi:app 
+heroku ps:scale web=1
