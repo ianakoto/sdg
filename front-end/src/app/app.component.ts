@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs';
 import { FormBuilder, Validators, FormGroup  } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 export interface Region {
   name: string;
@@ -25,9 +26,11 @@ export class AppComponent {
   itemList;
   myForm: FormGroup;
   setRegion: Region;
-  estimateresult;
 
-  constructor(private backendApi: BackendService, private formBuilder: FormBuilder, private http: HttpClient) {
+  constructor(private backendApi: BackendService,
+              private formBuilder: FormBuilder,
+              private http: HttpClient,
+              public snackBar: MatSnackBar) {
 
 
     this.myForm = formBuilder.group({
@@ -43,20 +46,10 @@ export class AppComponent {
 
   // tslint:disable-next-line:use-lifecycle-interface
   ngOnInit() {
-
-    this.itemListSubs = this.backendApi
-      .getLogs()
-      .subscribe(res => {
-          this.itemList = res;
-
-        },
-        console.error
-      );
   }
 
   // tslint:disable-next-line:use-lifecycle-interface
   ngOnDestroy() {
-    this.itemListSubs.unsubscribe();
   }
 
   get formControls() {
@@ -93,13 +86,19 @@ export class AppComponent {
 
    // post to api
     this.backendApi
-    .postEstimator(putdata)
-    .subscribe(res => {
-      this.estimateresult = JSON.stringify(res);
-
-    });
+    .postEstimator(putdata);
+    this.openSnackBar('data sent to Api', 'API REQUEST');
 
   }
 
+
+
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 10000,
+      verticalPosition: 'top',
+    });
+  }
 
 }
