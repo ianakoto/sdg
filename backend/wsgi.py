@@ -119,7 +119,7 @@ class Get_Logging(Resource):
         mlogs = Logs.query.all()
         put_data = []
         for log in mlogs:
-            put_data.append(f'{log.httpmethod}   {log.requestpath}     {log.status} {log.timetook} ms')
+            put_data.append(f'{log.httpmethod}  \t\t {log.requestpath}   \t\t   {log.status} \t\t {log.timetook}ms ')
 
 
 
