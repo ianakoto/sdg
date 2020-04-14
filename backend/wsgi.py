@@ -12,7 +12,8 @@ import json
 import jxmlease
 
 from flask_sqlalchemy import SQLAlchemy
-
+import os
+import backend.config as config
 
 
  
@@ -22,18 +23,41 @@ api = Api(app)
 
 CORS(app)
 
-app.config['DEBUG'] = True
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///example.sqlite"
+app.config.from_object(config.DevelopmentConfig)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
 
 
 class Logs(db.Model):
+    __tablename__ = 'logs'
+
+
     id = db.Column(db.Integer, primary_key=True)
-    httpmethod = db.Column(db.String, unique=True, nullable=False)
-    requestpath = db.Column(db.String, unique=True, nullable=False)
-    status = db.Column(db.String, unique=True, nullable=False)
-    timetook = db.Column(db.String, unique=True, nullable=False)
+    httpmethod = db.Column(db.String)
+    requestpath = db.Column(db.String)
+    status = db.Column(db.String)
+    timetook = db.Column(db.String)
+
+    def __init__(self, httpmethod, requestpath, status, timetook):
+        self.httpmethod = httpmethod
+        self.requestpath = requestpath
+        self.status = status
+        self.timetook = timetook
+
+    def __repr__(self):
+        return '<id {}>'.format(self.id)
+    
+    def serialize(self):
+        return {
+            'id': self.id, 
+            'httpmethod': self.httpmethod,
+            'requestpath': self.requestpath,
+            'status':self.status,
+            'timetook':self.timetook
+
+        }
 
 
 
