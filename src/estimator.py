@@ -79,6 +79,6 @@ def estimator(data):
       output = {'impact':impact,'severeImpact':severeImpact};
 
 
-      return output
+      return {'estimate': output}
       
        
