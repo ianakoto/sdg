@@ -9,7 +9,6 @@ import src.estimator as mymodule
 from collections import namedtuple
 import json
 
-from dicttoxml import dicttoxml
 import jxmlease
 
 from flask_sqlalchemy import SQLAlchemy
