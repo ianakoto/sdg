@@ -46,9 +46,9 @@ db.create_all()
 parser = reqparse.RequestParser()
 
 
-@app.route("/")
-def hello():
-    return jsonify({'text':'Hello World!'})
+@app.route('/')
+def index():
+    return "<h1>Welcome to Ian's server !!</h1>"
 class Post_JsonData(Resource):  
     def post(self):
         
@@ -132,9 +132,7 @@ def after(response):
 
 
 
-@app.route('/')
-def index():
-    return "<h1>Welcome to Ian's server !!</h1>"
+
 
 
 
